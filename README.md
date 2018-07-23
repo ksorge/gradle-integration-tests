@@ -39,8 +39,24 @@ This is done by writing something like this:
 
 ```
 integrationTests {
-    location = 'foobar'
+    location = 'foo'
 }
 ```
 
-With this configuration, your integration tests must be located in `src/foobar`.
+With this configuration, your integration tests must be located in `src/foo`.
+
+Another possible configuration can be used to specify the JVM-based language in 
+which the tests are written, so that the plugin can pick up the correct 
+source directories.
+
+For example, with a configuration such as:
+
+```
+integrationTests {
+    location = 'bar'
+    language = 'kotlin'
+}
+```
+
+The picked up source directory will be located at `src/bar/kotlin`. The default 
+language setting is `java`.

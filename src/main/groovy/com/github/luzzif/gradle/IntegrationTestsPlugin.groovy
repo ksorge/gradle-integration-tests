@@ -23,7 +23,7 @@ class IntegrationTestsPlugin implements Plugin<Project> {
             integrationTest {
                 compileClasspath += main.output + test.output
                 runtimeClasspath += main.output + test.output
-                java.srcDir "src/${extension.location}/java"
+                java.srcDir "src/${extension.location}/${extension.language}"
                 resources.srcDir "src/${extension.location}/resources"
             }
         }
