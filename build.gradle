@@ -1,0 +1,33 @@
+plugins {
+    id 'java-gradle-plugin'
+    id 'maven-publish'
+    id 'groovy'
+}
+
+group 'com.github.luzzif'
+version '1.0-SNAPSHOT'
+
+gradlePlugin {
+    plugins {
+        integrationTests {
+            id = 'com.github.luzzif.integration-tests'
+            implementationClass = 'com.github.luzzif.integrationTestsPlugin'
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    jUnitVersion = "4.12"
+}
+
+dependencies {
+    compile localGroovy()
+    compile gradleApi()
+
+    testCompile "junit:junit:$jUnitVersion"
+    testCompile gradleTestKit()
+}
