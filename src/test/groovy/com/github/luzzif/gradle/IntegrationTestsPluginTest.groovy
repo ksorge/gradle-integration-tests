@@ -1,5 +1,7 @@
 package com.github.luzzif.gradle
 
+import org.gradle.api.Project
+import org.gradle.testfixtures.ProjectBuilder
 import org.gradle.testkit.runner.BuildResult
 import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome
@@ -8,9 +10,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
 
-import static org.junit.Assert.assertNotNull
-import static org.junit.Assert.assertNull
-import static org.junit.Assert.assertTrue
+import static org.junit.Assert.*
 
 class IntegrationTestsPluginTest {
 
@@ -19,34 +19,37 @@ class IntegrationTestsPluginTest {
     private File buildFile
 
     @Before
-    void setup() {
+    void setup() throws Exception {
         buildFile = testProjectDir.newFile "build.gradle"
         buildFile << "plugins { id 'com.github.luzzif.integration-tests' }"
     }
 
     @Test
-    void testUndefinedIntegrationTestsDirectory() {
-
-        BuildResult result = GradleRunner.create()
-                .withPluginClasspath()
-                .withProjectDir(testProjectDir.getRoot())
-                .build()
-        assertNull result.task(":integrationTest")
-
-    }
-
-    @Test
-    void testNoSource() throws IOException {
+    void testBuildNoSource() {
 
         buildFile << "\nintegrationTests { location = 'test' }"
-        BuildResult result = GradleRunner.create()
+        BuildResult result = GradleRunner
+                .create()
                 .withPluginClasspath()
                 .withProjectDir(testProjectDir.getRoot())
                 .withArguments("integrationTest")
                 .build()
 
-        println result.output
-        assertNotNull result.task(":integrationTest").outcome == TaskOutcome.NO_SOURCE
+        assertNotNull result.task(":integrationTest")
+        assertTrue result.task(":integrationTest").outcome == TaskOutcome.NO_SOURCE
+
+    }
+
+    @Test
+    void testUndefinedExtension() {
+
+        Project project = ProjectBuilder
+                .builder()
+                .withProjectDir(testProjectDir.root)
+                .build()
+
+        assertFalse project.plugins.contains("java")
+        assertFalse project.tasks.contains("integrationTest")
 
     }
 
