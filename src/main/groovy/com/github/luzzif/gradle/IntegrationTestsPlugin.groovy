@@ -14,7 +14,7 @@ class IntegrationTestsPlugin implements Plugin<Project> {
 
         def extension = project.extensions.create(
                 "integrationTests",
-                IntegrationTestsExtension.class
+                IntegrationTestsExtension
         )
 
         project.plugins.apply "java"
@@ -23,8 +23,8 @@ class IntegrationTestsPlugin implements Plugin<Project> {
             integrationTest {
                 compileClasspath += main.output + test.output
                 runtimeClasspath += main.output + test.output
-                java.srcDir "src/${extension.location}/${extension.language}"
-                resources.srcDir "src/${extension.location}/resources"
+                java.srcDir "src/${-> extension.location}/${-> extension.language}"
+                resources.srcDir "src/${-> extension.location}/resources"
             }
         }
         project.configurations {
