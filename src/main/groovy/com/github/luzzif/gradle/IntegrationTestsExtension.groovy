@@ -1,6 +1,6 @@
 package com.github.luzzif.gradle
 
 class IntegrationTestsExtension {
-    String location
+    String location = "integrationTest"
     String language = "java"
 }
